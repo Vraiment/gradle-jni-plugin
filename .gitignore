@@ -1,0 +1,13 @@
+# IDE, Gradle objects
+*iml
+/.idea
+/out
+/build
+.gradle
+
+# Ignore C related files
+jni/*.h
+jni/build
+
+# Operating system generated objects
+.DS_Store
