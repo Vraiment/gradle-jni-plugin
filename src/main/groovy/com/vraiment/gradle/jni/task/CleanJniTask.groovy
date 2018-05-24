@@ -1,27 +1,14 @@
 package com.vraiment.gradle.jni.task
 
-import org.gradle.api.tasks.AbstractExecTask
+import org.gradle.api.tasks.TaskAction
 
-class CleanJniTask extends AbstractExecTask {
-    private String sourcesDir
-
+class CleanJniTask extends AbstractMakeTask {
     CleanJniTask() {
         super(CleanJniTask)
-
-        executable 'make'
-        args = generateArguments()
     }
 
-    void setSourcesDir(final String sourcesDir) {
-        this.sourcesDir = sourcesDir
-        args = generateArguments()
-    }
-
-    void setOutputDir(final String outputDir) {
-        environment 'OUTPUT', outputDir
-    }
-
-    private List<String> generateArguments() {
-        return [ '-C', sourcesDir, 'clean' ]
+    @TaskAction
+    protected void exec() {
+        super.execMake('clean')
     }
 }

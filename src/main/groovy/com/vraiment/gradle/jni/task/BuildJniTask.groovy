@@ -1,31 +1,20 @@
 package com.vraiment.gradle.jni.task
 
-import org.gradle.api.tasks.AbstractExecTask
+import org.gradle.api.tasks.TaskAction
 
-class BuildJniTask extends AbstractExecTask {
-    private String sourcesDir
+class BuildJniTask extends AbstractMakeTask {
+    String jvmHome
 
     BuildJniTask() {
         super(BuildJniTask)
-
-        executable 'make'
-        args = generateArguments()
     }
 
-    void setSourcesDir(final String sourcesDir) {
-        this.sourcesDir = sourcesDir
-        args = generateArguments()
-    }
+    @TaskAction
+    protected void exec() {
+        assert jvmHome != null
 
-    void setJvmHome(final String jvmHome) {
         environment 'JVM_HOME', jvmHome
-    }
 
-    void setOutputDir(final String outputDir) {
-        environment 'OUTPUT', outputDir
-    }
-
-    private List<String> generateArguments() {
-        return [ '-C', sourcesDir ]
+        super.execMake()
     }
 }
