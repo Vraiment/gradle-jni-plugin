@@ -1,37 +1,29 @@
 package com.vraiment.gradle.jni
 
 import org.gradle.api.tasks.AbstractExecTask
+import org.gradle.api.tasks.TaskAction
 
 class GenerateJniTask extends AbstractExecTask {
-    private String classpath
+    String classpath
 
-    private String outputDir
+    String outputDir
 
-    private List<String> classes = []
+    List<String> classes = []
 
     GenerateJniTask() {
         super(GenerateJniTask)
 
         executable 'javah'
-        args = generateArguments()
     }
 
-    void setClasspath(final String classpath) {
-        this.classpath = classpath
-        args = generateArguments()
-    }
+    @TaskAction
+    protected void exec() {
+        assert classpath != null
+        assert outputDir != null
+        assert classes
 
-    void setOutputDir(final String outputDir) {
-        this.outputDir = outputDir
-        args = generateArguments()
-    }
+        args = [ '-cp', classpath, '-d', outputDir ] + classes
 
-    void setClasses(final List<String> classes) {
-        this.classes += classes
-        args = generateArguments()
-    }
-
-    private List<String> generateArguments() {
-        return [ '-cp', classpath, '-d', outputDir ] + classes
+        super.exec()
     }
 }
