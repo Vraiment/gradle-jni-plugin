@@ -1,12 +1,12 @@
-package com.vraiment.gradle.jni
+package com.vraiment.gradle.jni.task
 
 import org.gradle.api.tasks.AbstractExecTask
 
-class CleanJniTask extends AbstractExecTask {
+class BuildJniTask extends AbstractExecTask {
     private String sourcesDir
 
-    CleanJniTask() {
-        super(CleanJniTask)
+    BuildJniTask() {
+        super(BuildJniTask)
 
         executable 'make'
         args = generateArguments()
@@ -17,11 +17,15 @@ class CleanJniTask extends AbstractExecTask {
         args = generateArguments()
     }
 
+    void setJvmHome(final String jvmHome) {
+        environment 'JVM_HOME', jvmHome
+    }
+
     void setOutputDir(final String outputDir) {
         environment 'OUTPUT', outputDir
     }
 
     private List<String> generateArguments() {
-        return [ '-C', sourcesDir, 'clean' ]
+        return [ '-C', sourcesDir ]
     }
 }

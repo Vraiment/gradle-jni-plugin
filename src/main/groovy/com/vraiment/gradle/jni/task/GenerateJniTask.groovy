@@ -1,4 +1,4 @@
-package com.vraiment.gradle.jni
+package com.vraiment.gradle.jni.task
 
 import org.gradle.api.tasks.AbstractExecTask
 import org.gradle.api.tasks.TaskAction
