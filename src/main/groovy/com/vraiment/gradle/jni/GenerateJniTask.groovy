@@ -7,7 +7,7 @@ class GenerateJniTask extends AbstractExecTask {
 
     private String outputDir
 
-    private String className
+    private List<String> classes = []
 
     GenerateJniTask() {
         super(GenerateJniTask)
@@ -26,12 +26,12 @@ class GenerateJniTask extends AbstractExecTask {
         args = generateArguments()
     }
 
-    void setClassName(final String className) {
-        this.className = className
+    void setClasses(final List<String> classes) {
+        this.classes += classes
         args = generateArguments()
     }
 
     private List<String> generateArguments() {
-        return [ '-cp', classpath, '-d', outputDir, className ]
+        return [ '-cp', classpath, '-d', outputDir ] + classes
     }
 }
