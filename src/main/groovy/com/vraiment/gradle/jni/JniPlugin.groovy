@@ -6,5 +6,11 @@ import org.gradle.api.Plugin
 class JniPlugin implements Plugin<Project> {
     void apply(Project project) {
         def extension = project.extensions.create('jni', JniPluginExtension, project)
+
+        project.tasks.create('generateJni', GenerateJniTask) { }
+
+        project.tasks.create('buildJni', BuildJniTask) { }
+
+        project.tasks.create('cleanJni', CleanJniTask) { }
     }
 }
