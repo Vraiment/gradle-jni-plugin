@@ -3,9 +3,9 @@ package com.vraiment.gradle.jni
 import org.gradle.api.Project
 import org.gradle.api.Plugin
 
-import com.vraiment.gradle.jni.task.BuildJniTask
-import com.vraiment.gradle.jni.task.CleanJniTask
 import com.vraiment.gradle.jni.task.GenerateJniTask
+import com.vraiment.gradle.jni.task.MakeCleanJniTask
+import com.vraiment.gradle.jni.task.MakeJniTask
 
 class JniPlugin implements Plugin<Project> {
     void apply(Project project) {
@@ -13,8 +13,8 @@ class JniPlugin implements Plugin<Project> {
 
         project.tasks.create('generateJni', GenerateJniTask) { }
 
-        project.tasks.create('buildJni', BuildJniTask) { }
+        project.tasks.create('makeJni', MakeJniTask) { }
 
-        project.tasks.create('cleanJni', CleanJniTask) { }
+        project.tasks.create('makeCleanJni', MakeCleanJniTask) { }
     }
 }

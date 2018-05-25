@@ -2,11 +2,11 @@ package com.vraiment.gradle.jni.task
 
 import org.gradle.api.tasks.TaskAction
 
-class BuildJniTask extends AbstractMakeTask {
+class MakeJniTask extends AbstractMakeTask {
     String jvmHome
 
-    BuildJniTask() {
-        super(BuildJniTask)
+    MakeJniTask() {
+        super(MakeJniTask)
     }
 
     @TaskAction
