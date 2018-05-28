@@ -7,6 +7,8 @@ import org.gradle.api.logging.Logging
 import org.gradle.api.tasks.AbstractExecTask
 import org.gradle.api.tasks.TaskAction
 
+import static com.vraiment.gradle.jni.Util.validateAndCreateDir
+
 /**
  * Task that will generate the headers from the given classes.
  */
@@ -64,13 +66,7 @@ class GenerateJniTask extends AbstractExecTask {
             assert jvmHome.directory : 'The JVM home value is not a directory'
         }
 
-        assert generatedHeadersDir : 'The generated headers path is required'
-        if (generatedHeadersDir.exists()) {
-            assert generatedHeadersDir.directory : 'The generated headers path is not a directory'
-        } else {
-            logger.info('Creating generated headers dir')
-            generatedHeadersDir.mkdirs()
-        }
+        validateAndCreateDir(generatedHeadersDir, 'generatedHeadersDir')
 
         assert classes : 'The list of classes to search for native methods is empty'
     }
