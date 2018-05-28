@@ -68,7 +68,7 @@ class GenerateJniTask extends AbstractExecTask {
         if (generatedHeadersDir.exists()) {
             assert generatedHeadersDir.directory : 'The generated headers path is not a directory'
         } else {
-            log.info('Creating generated headers dir')
+            logger.info('Creating generated headers dir')
             generatedHeadersDir.mkdirs()
         }
 
@@ -79,7 +79,7 @@ class GenerateJniTask extends AbstractExecTask {
         if (jvmHome) {
             return [jvmHome.path, 'bin', 'javah'].join(File.separator)
         } else {
-            log.info('Using default search path for javah')
+            logger.info('Using default search path for javah')
             return 'javah'
         }
     }
