@@ -21,7 +21,7 @@ class JniPlugin implements Plugin<Project> {
     }
 
     private void configureGenerateJniTask(Project project, JniPluginExtension extension) {
-        project.tasks.create(GENERATE_JNI, GenerateJniTask) {
+        def task = project.tasks.create(GENERATE_JNI, GenerateJniTask) {
             doFirst {
                 if (!generatedHeadersDir) {
                     generatedHeadersDir = extension.generatedHeadersDir
@@ -40,6 +40,8 @@ class JniPlugin implements Plugin<Project> {
                 }
             }
         }
+
+        task.dependsOn 'compileJava'
     }
 
     private void configureMakeJniTask(Project project, JniPluginExtension extension) {
