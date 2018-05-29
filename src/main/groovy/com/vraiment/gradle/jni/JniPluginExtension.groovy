@@ -2,6 +2,8 @@ package com.vraiment.gradle.jni
 
 import org.gradle.api.Project
 import org.gradle.api.file.FileCollection
+import org.gradle.api.plugins.JavaPluginConvention
+import org.gradle.api.tasks.SourceSet
 
 /**
  * Extension which contains general values for the plugin.
@@ -54,8 +56,10 @@ class JniPluginExtension {
         return null
     }
 
-    private String extractClasspath(project) {
-        // TODO
-        return null
+    private FileCollection extractClasspath(Project project) {
+        def convention = project.convention.getPlugin(JavaPluginConvention)
+        def outputSourceSet = convention.sourceSets.getByName(SourceSet.MAIN_SOURCE_SET_NAME).output
+
+        return outputSourceSet.classesDirs
     }
 }
