@@ -6,6 +6,8 @@ import org.gradle.api.logging.Logging
 class Util {
     private static final Logger logger = Logging.getLogger(Util)
 
+    static String JNI = 'JNI'
+
     /**
      * Validates the given file object is not null, and that if exists is a
      * directory. If it doesn't exist it attempts to create the directory.

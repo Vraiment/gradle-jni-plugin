@@ -1,12 +1,12 @@
 package com.vraiment.gradle.jni.task
 
-import org.gradle.api.Project
 import org.gradle.api.file.FileCollection
 import org.gradle.api.logging.Logger
 import org.gradle.api.logging.Logging
 import org.gradle.api.tasks.AbstractExecTask
 import org.gradle.api.tasks.TaskAction
 
+import static com.vraiment.gradle.jni.Util.JNI
 import static com.vraiment.gradle.jni.Util.validateAndCreateDir
 
 /**
@@ -43,6 +43,9 @@ class GenerateJniTask extends AbstractExecTask {
      */
     GenerateJniTask() {
         super(GenerateJniTask)
+
+        description = 'Generates JNI header files.'
+        group = JNI
     }
 
     @TaskAction

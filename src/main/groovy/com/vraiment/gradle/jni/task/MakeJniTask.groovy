@@ -4,6 +4,8 @@ import org.gradle.api.logging.Logger
 import org.gradle.api.logging.Logging
 import org.gradle.api.tasks.TaskAction
 
+import static com.vraiment.gradle.jni.Util.JNI
+
 /**
  * Task to execute a Makefile with no arguments but setting the JVM home.
  */
@@ -20,6 +22,9 @@ class MakeJniTask extends AbstractMakeTask {
      */
     MakeJniTask() {
         super(MakeJniTask)
+
+        description = 'Executes the Makefile to compile JNI sources.'
+        group = JNI
     }
 
     @TaskAction
