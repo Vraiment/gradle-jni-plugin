@@ -7,11 +7,15 @@ import com.vraiment.gradle.jni.task.GenerateJniTask
 import com.vraiment.gradle.jni.task.MakeCleanJniTask
 import com.vraiment.gradle.jni.task.MakeJniTask
 
+import static com.vraiment.gradle.jni.Util.GENERATE_JNI
+import static com.vraiment.gradle.jni.Util.MAKE_CLEAN_JNI
+import static com.vraiment.gradle.jni.Util.MAKE_JNI
+
 class JniPlugin implements Plugin<Project> {
     void apply(Project project) {
         def extension = project.extensions.create('jni', JniPluginExtension, project)
 
-        project.tasks.create('generateJni', GenerateJniTask) {
+        project.tasks.create(GENERATE_JNI, GenerateJniTask) {
             doFirst {
                 if (!generatedHeadersDir) {
                     generatedHeadersDir = extension.generatedHeadersDir
@@ -31,7 +35,7 @@ class JniPlugin implements Plugin<Project> {
             }
         }
 
-        project.tasks.create('makeJni', MakeJniTask) {
+        project.tasks.create(MAKE_JNI, MakeJniTask) {
             doFirst {
                 if (!makeFileDir) {
                     makeFileDir = extension.makeFileDir
@@ -47,7 +51,7 @@ class JniPlugin implements Plugin<Project> {
             }
         }
 
-        project.tasks.create('makeCleanJni', MakeCleanJniTask) {
+        project.tasks.create(MAKE_CLEAN_JNI, MakeCleanJniTask) {
             doFirst {
                 if (!makeFileDir) {
                     makeFileDir = extension.makeFileDir
