@@ -11,10 +11,52 @@ class JniPlugin implements Plugin<Project> {
     void apply(Project project) {
         def extension = project.extensions.create('jni', JniPluginExtension, project)
 
-        project.tasks.create('generateJni', GenerateJniTask) { }
+        project.tasks.create('generateJni', GenerateJniTask) {
+            doFirst {
+                if (!generatedHeadersDir) {
+                    generatedHeadersDir = extension.generatedHeadersDir
+                }
 
-        project.tasks.create('makeJni', MakeJniTask) { }
+                if (!jvmHome) {
+                    jvmHome = extension.jvmHome
+                }
 
-        project.tasks.create('makeCleanJni', MakeCleanJniTask) { }
+                if (!classpath) {
+                    classpath = extension.classpath
+                }
+
+                if (!classes) {
+                    classes = extension.classes
+                }
+            }
+        }
+
+        project.tasks.create('makeJni', MakeJniTask) {
+            doFirst {
+                if (!makeFileDir) {
+                    makeFileDir = extension.makeFileDir
+                }
+
+                if (!makeOutputDir) {
+                    makeOutputDir = extension.makeOutputDir
+                }
+
+                if (!jvmHome) {
+                    jvmHome = extension.jvmHome
+                }
+            }
+        }
+
+        project.tasks.create('makeCleanJni', MakeCleanJniTask) {
+            doFirst {
+                if (!makeFileDir) {
+                    makeFileDir = extension.makeFileDir
+                }
+
+                if (!makeOutputDir) {
+                    makeOutputDir = extension.makeOutputDir
+                }
+            }
+        }
     }
 }
