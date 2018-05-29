@@ -15,6 +15,12 @@ class JniPlugin implements Plugin<Project> {
     void apply(Project project) {
         def extension = project.extensions.create('jni', JniPluginExtension, project)
 
+        configureGenerateJniTask(project, extension)
+        configureMakeJniTask(project, extension)
+        configureMakeCleanJniTask(project, extension)
+    }
+
+    private void configureGenerateJniTask(Project project, JniPluginExtension extension) {
         project.tasks.create(GENERATE_JNI, GenerateJniTask) {
             doFirst {
                 if (!generatedHeadersDir) {
@@ -34,8 +40,10 @@ class JniPlugin implements Plugin<Project> {
                 }
             }
         }
+    }
 
-        project.tasks.create(MAKE_JNI, MakeJniTask) {
+    private void configureMakeJniTask(Project project, JniPluginExtension extension) {
+        def task = project.tasks.create(MAKE_JNI, MakeJniTask) {
             doFirst {
                 if (!makeFileDir) {
                     makeFileDir = extension.makeFileDir
@@ -51,6 +59,10 @@ class JniPlugin implements Plugin<Project> {
             }
         }
 
+        task.dependsOn GENERATE_JNI
+    }
+
+    private void configureMakeCleanJniTask(Project project, JniPluginExtension extension) {
         project.tasks.create(MAKE_CLEAN_JNI, MakeCleanJniTask) {
             doFirst {
                 if (!makeFileDir) {
