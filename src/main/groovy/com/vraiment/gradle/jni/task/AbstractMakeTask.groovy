@@ -20,7 +20,7 @@ class AbstractMakeTask extends AbstractExecTask {
     /**
      * The path where the Makefile should output the build artifacts.
      */
-    File outputDir
+    File makeOutputDir
 
     /**
      * Constructs a new instance of the AbstractMakeTask class.
@@ -36,13 +36,13 @@ class AbstractMakeTask extends AbstractExecTask {
      */
     protected void execMake(String... arguments) {
         assert makeFileDir?.directory : 'makeFileDir should point to a directory'
-        validateAndCreateDir(outputDir, 'outputDir')
+        validateAndCreateDir(makeOutputDir, 'makeOutputDir')
 
-        environment 'OUTPUT', outputDir.path
+        environment 'OUTPUT', makeOutputDir.path
 
         args = [ '-C', makeFileDir ] + arguments.toList()
 
-        logger.info("Executing Makefile in $makeFileDir with output as $outputDir")
+        logger.info("Executing Makefile in $makeFileDir with output as $makeOutputDir")
 
         super.exec()
     }

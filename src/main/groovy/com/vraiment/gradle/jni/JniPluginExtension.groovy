@@ -20,7 +20,7 @@ class JniPluginExtension {
     /**
      * The input directory that contains the Makefile for the native implementation.
      */
-    File makeSourcesDir
+    File makeFileDir
 
     /**
      * The output directory for native artifacts.
@@ -35,7 +35,7 @@ class JniPluginExtension {
     /**
      * The classpath that will be used for generating the header files and executing the Makefile.
      */
-    FileCollection classPath
+    FileCollection classpath
 
     /**
      * Initialize this extension object with the given project.
@@ -43,10 +43,10 @@ class JniPluginExtension {
     JniPluginExtension(Project project) {
         classes = []
         generatedHeadersDir = new File("${project.projectDir}/src/jni")
-        makeSourcesDir = generatedHeadersDir
+        makeFileDir = generatedHeadersDir
         makeOutputDir = new File("${project.buildDir}/jni")
         jvmHome = extractJvmHome(project)
-        classPath = extractClassPath(project)
+        classpath = extractClasspath(project)
     }
 
     private String extractJvmHome(project) {
@@ -54,7 +54,7 @@ class JniPluginExtension {
         return null
     }
 
-    private String extractClassPath(project) {
+    private String extractClasspath(project) {
         // TODO
         return null
     }
