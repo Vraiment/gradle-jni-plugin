@@ -41,6 +41,7 @@ class JniPlugin implements Plugin<Project> {
             }
         }
 
+        project.tasks.getByName('assemble').dependsOn GENERATE_JNI
         task.dependsOn 'compileJava'
     }
 
