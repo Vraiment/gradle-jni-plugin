@@ -57,7 +57,7 @@ class GenerateJniTask extends AbstractExecTask {
 
     private void validateProperties() {
         logger.info("jvmHome => ${jvmHome}")
-        logger.info("classpath => ${classpath.asPath}")
+        logger.info("classpath => ${classpath?.asPath}")
         logger.info("generatedHeadersDir => ${generatedHeadersDir}")
         logger.info("classes => ${classes}")
 
@@ -65,6 +65,8 @@ class GenerateJniTask extends AbstractExecTask {
             assert jvmHome.exists() : 'The JVM home value doesn\'t exist'
             assert jvmHome.directory : 'The JVM home value is not a directory'
         }
+
+        assert classpath : 'Classpath should be set'
 
         validateAndCreateDir(generatedHeadersDir, 'generatedHeadersDir')
 
