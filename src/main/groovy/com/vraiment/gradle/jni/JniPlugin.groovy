@@ -66,7 +66,7 @@ class JniPlugin implements Plugin<Project> {
     }
 
     private void configureMakeCleanJniTask(Project project, JniPluginExtension extension) {
-        project.tasks.create(MAKE_CLEAN_JNI, MakeCleanJniTask) {
+        def task = project.tasks.create(MAKE_CLEAN_JNI, MakeCleanJniTask) {
             doFirst {
                 if (!makeFileDir) {
                     makeFileDir = extension.makeFileDir
@@ -77,5 +77,7 @@ class JniPlugin implements Plugin<Project> {
                 }
             }
         }
+
+        project.tasks.getByName('clean').dependsOn MAKE_CLEAN_JNI
     }
 }
