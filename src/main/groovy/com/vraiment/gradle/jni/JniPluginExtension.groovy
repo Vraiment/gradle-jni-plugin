@@ -30,9 +30,9 @@ class JniPluginExtension {
     File makeOutputDir
 
     /**
-     * The directory that contains the $JVM_HOME value.
+     * The directory that contains the JDK.
      */
-    File jvmHome
+    File jdk
 
     /**
      * The classpath that will be used for generating the header files and executing the Makefile.
@@ -47,11 +47,11 @@ class JniPluginExtension {
         generatedHeadersDir = new File("${project.projectDir}/src/jni")
         makeFileDir = generatedHeadersDir
         makeOutputDir = new File("${project.buildDir}/jni")
-        jvmHome = extractJvmHome(project)
+        jdk = extractJdkDir(project)
         classpath = extractClasspath(project)
     }
 
-    private String extractJvmHome(project) {
+    private String extractJdkDir(project) {
         // TODO
         return null
     }

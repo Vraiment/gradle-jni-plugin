@@ -7,15 +7,15 @@ import org.gradle.api.tasks.TaskAction
 import static com.vraiment.gradle.jni.Util.JNI
 
 /**
- * Task to execute a Makefile with no arguments but setting the JVM home.
+ * Task to execute a Makefile with no arguments but setting the path to the JDK.
  */
 class MakeJniTask extends AbstractMakeTask {
     private static final Logger logger = Logging.getLogger(MakeJniTask)
 
     /**
-     * The directory that contains the JVM home.
+     * The directory that contains the JDK.
      */
-    File jvmHome
+    File jdk
 
     /**
      * Constructs a new instance of MakeJniTask.
@@ -29,11 +29,11 @@ class MakeJniTask extends AbstractMakeTask {
 
     @TaskAction
     protected void exec() {
-        assert jvmHome?.directory : 'jvmHome should point to a directory'
+        assert jdk?.directory : 'jdk should point to a directory'
 
-        environment 'JVM_HOME', jvmHome.path
+        environment 'JDK', jdk.path
 
-        logger.info("Executing makefile with JVM home in ${jvmHome.path}")
+        logger.info("Executing makefile with JDK in ${jdk.path}")
 
         super.execMake()
     }

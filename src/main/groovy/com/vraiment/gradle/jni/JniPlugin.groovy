@@ -27,8 +27,8 @@ class JniPlugin implements Plugin<Project> {
                     generatedHeadersDir = extension.generatedHeadersDir
                 }
 
-                if (!jvmHome) {
-                    jvmHome = extension.jvmHome
+                if (!jdk) {
+                    jdk = extension.jdk
                 }
 
                 if (!classpath) {
@@ -56,8 +56,8 @@ class JniPlugin implements Plugin<Project> {
                     makeOutputDir = extension.makeOutputDir
                 }
 
-                if (!jvmHome) {
-                    jvmHome = extension.jvmHome
+                if (!jdk) {
+                    jdk = extension.jdk
                 }
             }
         }

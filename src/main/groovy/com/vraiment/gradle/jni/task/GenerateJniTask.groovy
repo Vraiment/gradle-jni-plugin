@@ -16,10 +16,10 @@ class GenerateJniTask extends AbstractExecTask {
     private static final Logger logger = Logging.getLogger(GenerateJniTask)
 
     /**
-     * The directory that contains the $JVM_HOME value, if not set it will just
-     * call 'javah' instead of using the full path.
+     * The directory that contains the JDK, if not set it will just call 'javah'
+     * instead of using the full path.
      */
-    File jvmHome
+    File jdk
 
     /**
      * The classpath that will be used to search for the classes containing the
@@ -59,12 +59,12 @@ class GenerateJniTask extends AbstractExecTask {
     }
 
     private void validateProperties() {
-        logger.info("jvmHome => ${jvmHome}")
+        logger.info("jdk => ${jdk}")
         logger.info("classpath => ${classpath?.asPath}")
         logger.info("generatedHeadersDir => ${generatedHeadersDir}")
         logger.info("classes => ${classes}")
 
-        assert jvmHome?.directory : 'jvmHome should point to a directory'
+        assert jdk?.directory : 'jdk should point to a directory'
         assert classpath : 'Classpath should be set'
 
         validateAndCreateDir(generatedHeadersDir, 'generatedHeadersDir')
@@ -73,8 +73,8 @@ class GenerateJniTask extends AbstractExecTask {
     }
 
     private String buildExecutable() {
-        if (jvmHome) {
-            return [jvmHome.path, 'bin', 'javah'].join(File.separator)
+        if (jdk) {
+            return [jdk.path, 'bin', 'javah'].join(File.separator)
         } else {
             logger.info('Using default search path for javah')
             return 'javah'
