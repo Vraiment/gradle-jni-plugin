@@ -64,11 +64,7 @@ class GenerateJniTask extends AbstractExecTask {
         logger.info("generatedHeadersDir => ${generatedHeadersDir}")
         logger.info("classes => ${classes}")
 
-        if (jvmHome) {
-            assert jvmHome.exists() : 'The JVM home value doesn\'t exist'
-            assert jvmHome.directory : 'The JVM home value is not a directory'
-        }
-
+        assert jvmHome?.directory : 'jvmHome should point to a directory'
         assert classpath : 'Classpath should be set'
 
         validateAndCreateDir(generatedHeadersDir, 'generatedHeadersDir')
