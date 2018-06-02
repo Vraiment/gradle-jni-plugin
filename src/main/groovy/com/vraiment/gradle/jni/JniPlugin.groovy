@@ -6,6 +6,9 @@ import org.gradle.api.Plugin
 import com.vraiment.gradle.jni.task.GenerateJniTask
 import com.vraiment.gradle.jni.task.MakeJniTask
 
+import static org.gradle.api.plugins.BasePlugin.ASSEMBLE_TASK_NAME;
+import static org.gradle.api.plugins.JavaPlugin.COMPILE_JAVA_TASK_NAME
+
 import static com.vraiment.gradle.jni.Util.GENERATE_JNI
 import static com.vraiment.gradle.jni.Util.MAKE_JNI
 
@@ -38,8 +41,8 @@ class JniPlugin implements Plugin<Project> {
             }
         }
 
-        project.tasks.getByName('assemble').dependsOn GENERATE_JNI
-        task.dependsOn 'compileJava'
+        addToAssemble(project, GENERATE_JNI)
+        task.dependsOn COMPILE_JAVA_TASK_NAME
     }
 
     private void configureMakeJniTask(Project project, JniPluginExtension extension) {
@@ -59,6 +62,11 @@ class JniPlugin implements Plugin<Project> {
             }
         }
 
+        addToAssemble(project, MAKE_JNI)
         task.dependsOn GENERATE_JNI
+    }
+
+    private static void addToAssemble(Project project, String taskName) {
+        project.tasks.getByName(ASSEMBLE_TASK_NAME).dependsOn taskName
     }
 }
