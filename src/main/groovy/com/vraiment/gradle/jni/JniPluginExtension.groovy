@@ -44,9 +44,9 @@ class JniPluginExtension {
      */
     JniPluginExtension(Project project) {
         classes = []
-        generatedHeadersDir = new File("${project.projectDir}/src/jni")
-        makeFileDir = generatedHeadersDir
-        makeOutputDir = new File("${project.buildDir}/jni")
+        generatedHeadersDir = new File("${project.buildDir}/jni/headers")
+        makeFileDir = new File("${project.projectDir}/src/main/jni")
+        makeOutputDir = new File("${project.buildDir}/jni/make")
         jdk = extractJdkDir(project)
         classpath = extractClasspath(project)
     }

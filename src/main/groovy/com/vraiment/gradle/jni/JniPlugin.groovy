@@ -48,6 +48,10 @@ class JniPlugin implements Plugin<Project> {
     private void configureMakeJniTask(Project project, JniPluginExtension extension) {
         def task = project.tasks.create(MAKE_JNI, MakeJniTask) {
             doFirst {
+                if (!generatedHeadersDir) {
+                    generatedHeadersDir = extension.generatedHeadersDir
+                }
+
                 if (!makeFileDir) {
                     makeFileDir = extension.makeFileDir
                 }

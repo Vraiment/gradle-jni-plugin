@@ -1,40 +1,108 @@
 package com.vraiment.gradle.jni.task
 
-import org.gradle.api.logging.Logger
+import org.gradle.api.DefaultTask
 import org.gradle.api.logging.Logging
 import org.gradle.api.tasks.TaskAction
+import org.gradle.process.internal.ExecActionFactory
 
-import static com.vraiment.gradle.jni.Util.JNI
+import javax.inject.Inject
 
 /**
- * Task to execute a Makefile with no arguments but setting the path to the JDK.
+ * Task to execute a Makefile.
  */
-class MakeJniTask extends AbstractMakeTask {
-    private static final Logger logger = Logging.getLogger(MakeJniTask)
+class MakeJniTask extends DefaultTask {
+    private static def logger = Logging.getLogger(MakeJniTask)
+
+    private static JDK_ENV_DIR_VAR = 'JDK_DIR'
+
+    private static OUTPUT_DIR_ENV_VAR = 'OUTPUT_DIR'
+
+    private static GENERATED_HEADERS_DIR_ENV_DAR = 'GENERATED_HEADERS_DIR'
+
+    private def execAction = this.getExecActionFactory().newExecAction()
 
     /**
-     * The directory that contains the JDK.
+     * THe directory where the generated headers are placed.
+     */
+    File generatedHeadersDir
+
+    /**
+     * The directory that contains the makefile.
+     */
+    File makeFileDir
+
+    /**
+     * The directory where the makefile should put the build artifacts.
+     */
+    File makeOutputDir
+
+    /**
+     * The directory where the JDK is stored.
      */
     File jdk
 
     /**
-     * Constructs a new instance of MakeJniTask.
+     * Additional arguments for the makefile.
      */
-    MakeJniTask() {
-        super(MakeJniTask)
+    List<String> arguments
 
-        description = 'Executes the Makefile to compile JNI sources.'
-        group = JNI
+    /**
+     * Sets the environment variable with the given name to the given value for the Makefile.
+     *
+     * The variable should not be either JDK_DIR or OUTPUT_DIR or GENERATED_HEADERS_DIR.
+     *
+     * @param name The name of the environment variable.
+     * @param value The value of the environment variable.
+     *
+     * @return This same instance of a MakeJniTask.
+     */
+    def environment(String name, Object value) {
+        checkArgument(JDK_ENV_DIR_VAR, name)
+        checkArgument(OUTPUT_DIR_ENV_VAR, name)
+        checkArgument(GENERATED_HEADERS_DIR_ENV_DAR, name)
+
+        execAction.environment name, value
+
+        return this
     }
 
     @TaskAction
-    protected void exec() {
-        assert jdk?.directory : 'jdk should point to a directory'
+    def make() {
+        logger.info("JDK => ${jdk.path}")
+        logger.info("output dir => ${makeOutputDir.path}")
+        logger.info("headers dir => ${generatedHeadersDir}")
+        logger.info("makefile dir => ${makeFileDir.path}")
+        logger.info("arguments => $arguments")
 
-        environment 'JDK', jdk.path
+        environment JDK_ENV_DIR_VAR, jdk.path
+        environment OUTPUT_DIR_ENV_VAR, makeOutputDir.path
+        environment GENERATED_HEADERS_DIR_ENV_DAR,generatedHeadersDir.path
 
-        logger.info("Executing makefile with JDK in ${jdk.path}")
+        execAction.args = [ '-C', makeFileDir.path ] + buildArguments()
 
-        super.execMake()
+        execAction.execute()
+    }
+
+    @Inject
+    protected ExecActionFactory getExecActionFactory() {
+        throw new UnsupportedOperationException()
+    }
+
+    private buildArguments() {
+        if (arguments == null) {
+            return null
+        }
+
+        if (arguments.contains('-C')) {
+            throw new RuntimeException("Trying to override the Makefile location")
+        }
+
+        return arguments
+    }
+
+    private static checkArgument(String constant, String value) {
+        if (constant == value) {
+            throw IllegalArgumentException(constant)
+        }
     }
 }
