@@ -12,8 +12,6 @@ class Util {
 
     static String MAKE_JNI = 'makeJni'
 
-    static String MAKE_CLEAN_JNI = 'makeCleanJni'
-
     /**
      * Validates the given file object is not null, and that if exists is a
      * directory. If it doesn't exist it attempts to create the directory.
