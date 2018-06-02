@@ -111,7 +111,7 @@ class MakeJniTask extends DefaultTask {
 
     private static checkArgument(String constant, String value) {
         if (constant == value) {
-            throw new IllegalArgumentException(constant)
+            throw new IllegalArgumentException("Cannot override the value of $constant")
         }
     }
 }

@@ -20,8 +20,8 @@ One example of configuring the task *generateJni*:
 ```groovy
 generateJni {
     jdk = file('/Library/Java/JavaVirtualMachines/jdk1.8.0_31.jdk/Contents/Home')
-    classpath = files('$buildDir/classes')
-    generatedHeadersDir = file('$src/jni')
+    classpath = files("$buildDir/classes")
+    generatedHeadersDir = file("$src/jni")
     classes = [ 'org.myproject.native.Class1', 'org.myproject.native.Class2' ]
 }
 ```
@@ -29,19 +29,25 @@ generateJni {
 ### Task *makeJni*
 
 This task is in charge of executing the given make file in order to build the library with the given Makefile. It requires the following values to work correctly:
+- *generatedHeadersDir*: Contains a path where the Makefile should search for the JNI generated, this value is available to the Makefile via the `GENERATED_HEADERS_DIR` variable.
 - *makeFileDir*: Contains the path where the Makefile to be executed is located.
-- *makeOutputDir*: Contains the path where the Makefile should place generated artifacts, this value is available to the Makefile via the *OUTPUT* variable.
-- *jdk*: Contains the path where the JDK is located, this value is available to the Makefile via the *JDK* variable.
+- *makeOutputDir*: Contains the path where the Makefile should place generated artifacts, this value is available to the Makefile via the `OUTPUT_DIR` variable.
+- *jdk*: Contains the path where the JDK is located, this value is available to the Makefile via the `JDK_DIR` variable.
 
 One example of configuring the task *makeJni*:
 
 ```groovy
 makeJni {
-    makeFileDir = file('$src/jni')
-    makeOutputDir = file('$buildDir/jni')
+    makeFileDir = file("$src/jni")
+    makeOutputDir = file("$buildDir/jni")
     jdk = file('/Library/Java/JavaVirtualMachines/jdk1.8.0_31.jdk/Contents/Home')
 }
 ```
+
+Additionally the *makeJni* task have two additional options for further configuring the Makefile:
+
+- *arguments*: A property which is a list of strings that will be passed to the makefile, you cannot override the `-C` argument.
+- *environment*: A method to configure the environment for the makefile. As first argument takes the name of the variable and as second argument the value of the variable.
 
 ## Configuring all the tasks
 
@@ -50,6 +56,6 @@ The pluging makes a `jni` extension available in order to set all the values nec
 ```groovy
 jni.classes = [ 'org.myproject.native.Class1', 'org.myproject.native.Class2' ]
 jni.jdk = file('/Library/Java/JavaVirtualMachines/jdk1.8.0_31.jdk/Contents/Home')
-jni.generatedHeadersDir = file('$src/jni')
+jni.generatedHeadersDir = file("$buildDir/jni")
 ...
 ```
