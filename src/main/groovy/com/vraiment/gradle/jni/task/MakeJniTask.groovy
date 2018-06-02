@@ -7,6 +7,8 @@ import org.gradle.process.internal.ExecActionFactory
 
 import javax.inject.Inject
 
+import static com.vraiment.gradle.jni.Util.validateAndCreateDir
+
 /**
  * Task to execute a Makefile.
  */
@@ -74,9 +76,16 @@ class MakeJniTask extends DefaultTask {
         logger.info("makefile dir => ${makeFileDir.path}")
         logger.info("arguments => $arguments")
 
-        environment JDK_ENV_DIR_VAR, jdk.path
-        environment OUTPUT_DIR_ENV_VAR, makeOutputDir.path
-        environment GENERATED_HEADERS_DIR_ENV_DAR,generatedHeadersDir.path
+        execAction.executable = 'make'
+
+        assert jdk?.directory : 'jdk should point to a directory'
+        execAction.environment JDK_ENV_DIR_VAR, jdk.path
+
+        validateAndCreateDir(makeOutputDir, 'makeOutputDir')
+        execAction.environment OUTPUT_DIR_ENV_VAR, makeOutputDir.path
+
+        assert generatedHeadersDir?.directory : 'generatedHeadersDir should point to an existing directory'
+        execAction.environment GENERATED_HEADERS_DIR_ENV_DAR, generatedHeadersDir.path
 
         execAction.args = [ '-C', makeFileDir.path ] + buildArguments()
 
@@ -84,13 +93,13 @@ class MakeJniTask extends DefaultTask {
     }
 
     @Inject
-    protected ExecActionFactory getExecActionFactory() {
+    private ExecActionFactory getExecActionFactory() {
         throw new UnsupportedOperationException()
     }
 
     private buildArguments() {
         if (arguments == null) {
-            return null
+            return []
         }
 
         if (arguments.contains('-C')) {
@@ -102,7 +111,7 @@ class MakeJniTask extends DefaultTask {
 
     private static checkArgument(String constant, String value) {
         if (constant == value) {
-            throw IllegalArgumentException(constant)
+            throw new IllegalArgumentException(constant)
         }
     }
 }
