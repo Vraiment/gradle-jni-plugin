@@ -1,4 +1,7 @@
-apply plugin: 'groovy'
+plugins {
+    id 'groovy'
+    id 'com.gradle.plugin-publish' version '0.9.10'
+}
 
 dependencies {
     compile gradleApi()
@@ -6,4 +9,18 @@ dependencies {
 }
 
 group = 'com.vraiment.gradle'
-version = '0.2'
+version = '0.2.1'
+
+pluginBundle {
+    website = 'https://github.com/Vraiment/gradle-jni-plugin'
+    vcsUrl = 'https://github.com/Vraiment/gradle-jni-plugin.git'
+
+    plugins {
+        jniPlugin {
+            id = 'com.vraiment.gradle.jni'
+            displayName = 'Gradle JNI'
+            description = 'Plugin for building JNI sources using a Makefile'
+            tags = [ 'jni', 'make' ]
+        }
+    }
+}
