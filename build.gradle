@@ -9,7 +9,7 @@ dependencies {
 }
 
 group = 'com.vraiment.gradle'
-version = '0.2.1'
+version = '0.2.2'
 
 pluginBundle {
     website = 'https://github.com/Vraiment/gradle-jni-plugin'

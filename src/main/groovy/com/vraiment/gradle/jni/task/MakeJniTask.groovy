@@ -93,7 +93,7 @@ class MakeJniTask extends DefaultTask {
     }
 
     @Inject
-    private ExecActionFactory getExecActionFactory() {
+    protected ExecActionFactory getExecActionFactory() {
         throw new UnsupportedOperationException()
     }
 
